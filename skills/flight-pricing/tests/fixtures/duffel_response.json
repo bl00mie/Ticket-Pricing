@@ -1,0 +1,169 @@
+{
+  "data": {
+    "id": "orq_0000AhTmJvILFphVOXBkLP",
+    "offers": [
+      {
+        "id": "off_0000AhTmJvILFphVOXBkLQ",
+        "total_amount": "289.50",
+        "total_currency": "USD",
+        "tax_amount": "45.00",
+        "tax_currency": "USD",
+        "slices": [
+          {
+            "id": "sli_0000AhTmJvILFphVOXBkLR",
+            "duration": "PT5H30M",
+            "segments": [
+              {
+                "id": "seg_0000AhTmJvILFphVOXBkLS",
+                "origin": {
+                  "iata_code": "LAX",
+                  "name": "Los Angeles International Airport",
+                  "city_name": "Los Angeles"
+                },
+                "destination": {
+                  "iata_code": "JFK",
+                  "name": "John F. Kennedy International Airport",
+                  "city_name": "New York"
+                },
+                "departing_at": "2026-05-15T08:00:00",
+                "arriving_at": "2026-05-15T16:30:00",
+                "duration": "PT5H30M",
+                "marketing_carrier": {
+                  "iata_code": "UA",
+                  "name": "United Airlines"
+                },
+                "marketing_carrier_flight_number": "123",
+                "aircraft": {
+                  "name": "Boeing 737-800"
+                }
+              }
+            ]
+          }
+        ],
+        "passengers": [
+          {
+            "id": "pas_0000AhTmJvILFphVOXBkLT",
+            "type": "adult",
+            "baggages": [
+              {
+                "type": "checked",
+                "quantity": 1
+              },
+              {
+                "type": "carry_on",
+                "quantity": 1
+              }
+            ]
+          }
+        ],
+        "conditions": {
+          "refund_before_departure": {
+            "allowed": false
+          },
+          "change_before_departure": {
+            "allowed": true,
+            "penalty_amount": "50.00",
+            "penalty_currency": "USD"
+          }
+        },
+        "payment_requirements": {
+          "requires_instant_payment": false,
+          "price_guarantee_expires_at": "2026-04-17T10:30:00Z",
+          "payment_required_by": "2026-04-17T10:30:00Z"
+        }
+      },
+      {
+        "id": "off_0000AhTmJvILFphVOXBkLU",
+        "total_amount": "445.00",
+        "total_currency": "USD",
+        "tax_amount": "65.00",
+        "tax_currency": "USD",
+        "slices": [
+          {
+            "id": "sli_0000AhTmJvILFphVOXBkLV",
+            "duration": "PT8H15M",
+            "segments": [
+              {
+                "id": "seg_0000AhTmJvILFphVOXBkLW",
+                "origin": {
+                  "iata_code": "LAX",
+                  "name": "Los Angeles International Airport"
+                },
+                "destination": {
+                  "iata_code": "ORD",
+                  "name": "O'Hare International Airport"
+                },
+                "departing_at": "2026-05-15T06:00:00",
+                "arriving_at": "2026-05-15T11:45:00",
+                "duration": "PT3H45M",
+                "marketing_carrier": {
+                  "iata_code": "AA",
+                  "name": "American Airlines"
+                },
+                "marketing_carrier_flight_number": "456",
+                "aircraft": {
+                  "name": "Airbus A321"
+                }
+              },
+              {
+                "id": "seg_0000AhTmJvILFphVOXBkLX",
+                "origin": {
+                  "iata_code": "ORD",
+                  "name": "O'Hare International Airport"
+                },
+                "destination": {
+                  "iata_code": "JFK",
+                  "name": "John F. Kennedy International Airport"
+                },
+                "departing_at": "2026-05-15T12:30:00",
+                "arriving_at": "2026-05-15T14:15:00",
+                "duration": "PT2H45M",
+                "marketing_carrier": {
+                  "iata_code": "AA",
+                  "name": "American Airlines"
+                },
+                "marketing_carrier_flight_number": "789",
+                "aircraft": {
+                  "name": "Boeing 737 MAX 8"
+                }
+              }
+            ]
+          }
+        ],
+        "passengers": [
+          {
+            "id": "pas_0000AhTmJvILFphVOXBkLY",
+            "type": "adult",
+            "baggages": [
+              {
+                "type": "checked",
+                "quantity": 0
+              },
+              {
+                "type": "carry_on",
+                "quantity": 1
+              }
+            ]
+          }
+        ],
+        "conditions": {
+          "refund_before_departure": {
+            "allowed": true,
+            "penalty_amount": "100.00",
+            "penalty_currency": "USD"
+          },
+          "change_before_departure": {
+            "allowed": true,
+            "penalty_amount": "75.00",
+            "penalty_currency": "USD"
+          }
+        },
+        "payment_requirements": {
+          "requires_instant_payment": false,
+          "price_guarantee_expires_at": "2026-04-17T10:30:00Z",
+          "payment_required_by": "2026-04-17T10:30:00Z"
+        }
+      }
+    ]
+  }
+}

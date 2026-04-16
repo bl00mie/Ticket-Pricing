@@ -1,0 +1,49 @@
+============================= test session starts =============================
+platform win32 -- Python 3.10.4, pytest-9.0.3, pluggy-1.6.0 -- C:\Python310\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\chadb\Documents\projects\Ticket Pricing\skills\flight-pricing
+plugins: anyio-4.13.0, cov-7.1.0, timeout-2.4.0
+collecting ... collected 40 items
+
+tests/test_cache.py::TestWALMode::test_wal_enabled PASSED                [  2%]
+tests/test_cache.py::TestCacheWriteRead::test_write_then_read PASSED     [  5%]
+tests/test_cache.py::TestCacheWriteRead::test_cache_miss_empty PASSED    [  7%]
+tests/test_cache.py::TestCacheTTL::test_fresh_cache_hit PASSED           [ 10%]
+tests/test_cache.py::TestCacheTTL::test_expired_cache_miss PASSED        [ 12%]
+tests/test_cache.py::TestCacheTTL::test_expired_cache_returned_with_ignore_ttl PASSED [ 15%]
+tests/test_cache.py::TestCacheHistory::test_history_returns_all PASSED   [ 17%]
+tests/test_cache.py::TestConcurrentWrites::test_concurrent_writes PASSED [ 20%]
+tests/test_flight_pricing.py::TestOneWay::test_valid_one_way PASSED      [ 22%]
+tests/test_flight_pricing.py::TestRoundTrip::test_round_trip_has_return PASSED [ 25%]
+tests/test_flight_pricing.py::TestCacheHit::test_second_query_uses_cache PASSED [ 27%]
+tests/test_flight_pricing.py::TestCacheMiss::test_expired_cache_fetches_live PASSED [ 30%]
+tests/test_flight_pricing.py::TestForceRefresh::test_force_refresh_bypasses_cache PASSED [ 32%]
+tests/test_flight_pricing.py::TestHistory::test_history_returns_all_cached PASSED [ 35%]
+tests/test_flight_pricing.py::TestHistory::test_empty_history PASSED     [ 37%]
+tests/test_flight_pricing.py::TestInvalidIATA::test_invalid_origin PASSED [ 40%]
+tests/test_flight_pricing.py::TestInvalidIATA::test_invalid_destination PASSED [ 42%]
+tests/test_flight_pricing.py::TestPastDate::test_past_date_error PASSED  [ 45%]
+tests/test_flight_pricing.py::TestInvalidDateRange::test_return_before_departure PASSED [ 47%]
+tests/test_flight_pricing.py::TestAPIFallback::test_fallback_to_cache PASSED [ 50%]
+tests/test_flight_pricing.py::TestAPIErrorNoCache::test_no_cache_returns_error PASSED [ 52%]
+tests/test_flight_pricing.py::TestZeroResults::test_empty_results PASSED [ 55%]
+tests/test_flight_pricing.py::TestNonStop::test_non_stop_passes_param PASSED [ 57%]
+tests/test_flight_pricing.py::TestCabinClass::test_business_cabin PASSED [ 60%]
+tests/test_flight_pricing.py::TestMultiPassenger::test_three_passengers PASSED [ 62%]
+tests/test_flight_pricing.py::TestSorting::test_sort_by_price PASSED     [ 65%]
+tests/test_flight_pricing.py::TestSorting::test_sort_by_duration PASSED  [ 67%]
+tests/test_flight_pricing.py::TestAssessPrice::test_below_median PASSED  [ 70%]
+tests/test_flight_pricing.py::TestAssessPrice::test_median_range PASSED  [ 72%]
+tests/test_flight_pricing.py::TestAssessPrice::test_above_median PASSED  [ 75%]
+tests/test_flight_pricing.py::TestIATAValidation::test_iata[LAX-LAX] PASSED [ 77%]
+tests/test_flight_pricing.py::TestIATAValidation::test_iata[jfk-JFK] PASSED [ 80%]
+tests/test_flight_pricing.py::TestIATAValidation::test_iata[ lax -LAX] PASSED [ 82%]
+tests/test_flight_pricing.py::TestIATAValidation::test_iata[LA-None] PASSED [ 85%]
+tests/test_flight_pricing.py::TestIATAValidation::test_iata[LAXJ-None] PASSED [ 87%]
+tests/test_flight_pricing.py::TestIATAValidation::test_iata[LA1-None] PASSED [ 90%]
+tests/test_flight_pricing.py::TestIATAValidation::test_iata[-None] PASSED [ 92%]
+tests/test_flight_pricing.py::TestIATAValidation::test_iata[L-None] PASSED [ 95%]
+tests/test_flight_pricing.py::TestIATAValidation::test_iata[123-None] PASSED [ 97%]
+tests/test_flight_pricing.py::TestAuthError::test_missing_token PASSED   [100%]
+
+============================= 40 passed in 13.23s =============================

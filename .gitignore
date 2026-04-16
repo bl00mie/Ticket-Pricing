@@ -1,0 +1,70 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# Virtual environments
+venv/
+.env/
+.venv/
+env/
+
+# Pytest
+.pytest_cache/
+cache/
+
+# Coverage
+.coverage
+htmlcov/
+coverage.xml
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Local env files
+.env
+.env.*
+
+# SQLite cache created by the skill
+skills/flight-pricing/cache.db
+
+# pytest caches and test artifacts
+tests/__pycache__/
+
+# Generated files
+__pycache__/
+*.pytest_cache/
+
+# Node (if any front-end or tooling)
+node_modules/
+
+# Ignore large files
+*.sqlite
+*.db
+*.tar.gz
+
+# Keep the example env but ignore actual env
+.env
+
+# Misc
+*.swp
