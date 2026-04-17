@@ -1,76 +1,89 @@
-# flight-pricing
+---
+name: flight-pricing
+description: Use when searching for flight prices, comparing fare options for a specific itinerary, or tracking the same route over time with local cached history. Supports one-way and round-trip lookups, cabin filtering, nonstop preference, and historical price snapshots via a local Python script backed by Duffel.
+---
 
-Fetches current flight prices for a route and maintains a local cache for historical price tracking. Output is JSON — parse it and summarize the key fields for the user.
+# Flight Pricing
 
-## Usage
+Use this skill when Chad wants current flight options or ongoing price tracking for a route.
 
-```bash
-python ~/.openclaw/workspace/skills/flight-pricing/flight_pricing.py [flags]
-```
+## Run the tool
 
-### Required Flags
-| Flag | Description |
-|------|-------------|
-| `--origin` | Origin IATA airport code (e.g. LAX) |
-| `--destination` | Destination IATA airport code (e.g. JFK) |
-| `--date` | Departure date in YYYY-MM-DD format |
-
-### Optional Flags
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--return-date` | Return date YYYY-MM-DD (omit for one-way) | — |
-| `--passengers` | Number of passengers (1-9) | 1 |
-| `--cabin` | ECONOMY, PREMIUM_ECONOMY, BUSINESS, FIRST | ECONOMY |
-| `--non-stop` | Only show direct flights | off |
-| `--max-results` | Maximum results to return | 10 |
-| `--sort-by` | price, duration, or departure_time | price |
-| `--currency` | ISO 4217 currency code | USD |
-| `--force-refresh` | Bypass cache, fetch live prices | off |
-| `--history` | Show cached price history for this route | off |
-
-## Examples
-
-### One-way flight search
-```bash
-python ~/.openclaw/workspace/skills/flight-pricing/flight_pricing.py \
-  --origin LAX --destination JFK --date 2026-05-15
-```
-Returns JSON with the cheapest flights from LAX to JFK on May 15, sorted by price.
-
-### Round-trip with cabin class
-```bash
-python ~/.openclaw/workspace/skills/flight-pricing/flight_pricing.py \
-  --origin SFO --destination LHR --date 2026-06-01 --return-date 2026-06-15 \
-  --cabin BUSINESS --passengers 2
-```
-Returns business-class round-trip options for 2 passengers, SFO to London Heathrow.
-
-### Price history for a route
-```bash
-python ~/.openclaw/workspace/skills/flight-pricing/flight_pricing.py \
-  --origin LAX --destination JFK --date 2026-05-15 --history
-```
-Returns all previously cached price snapshots for this route, sorted chronologically. Use this to see how prices have changed over time.
-
-## Output
-
-The tool prints a single JSON object to stdout. Key fields to summarize:
-- `results[].total_price` and `results[].price_per_person` — the prices
-- `results[].outbound.segments[].carrier_name` — airline name
-- `results[].outbound.departure_at` / `arrival_at` — flight times
-- `results[].outbound.stops` — number of connections (0 = nonstop)
-- `meta.cache_hit` — whether data came from cache or live API
-- `price_context.current_assessment` — whether the price is below/at/above typical
-
-Errors are also JSON with `"error": true` and a `"code"` field.
-
-## One-Time Setup
+From the OpenClaw workspace, use:
 
 ```bash
-cd ~/.openclaw/workspace/skills/flight-pricing
-pip install -r requirements.txt
-cp .env.example .env
-# Edit .env and add your DUFFEL_ACCESS_TOKEN
+python3 /home/chad/.openclaw/workspace/skills/flight-pricing/flight_pricing.py [flags]
 ```
 
-Get your Duffel API token at https://app.duffel.com/tokens (free tier: 1,000 offers/month).
+The workspace path is correct even though the skill may be symlinked to a repository underneath.
+
+## Setup
+
+If the script fails on missing dependencies, install them with:
+
+```bash
+python3 -m pip install --user -r /home/chad/.openclaw/workspace/skills/flight-pricing/requirements.txt
+```
+
+If `.env` is missing, create it from `.env.example` and add tokens:
+
+```bash
+cp /home/chad/.openclaw/workspace/skills/flight-pricing/.env.example \
+   /home/chad/.openclaw/workspace/skills/flight-pricing/.env
+```
+
+Required token:
+- `DUFFEL_ACCESS_TOKEN`
+
+Optional token:
+- `TRAVELPAYOUTS_TOKEN` for broader price context
+
+Never commit `.env`, cache DBs, logs, or token values.
+
+## Common usage
+
+### Round-trip, premium cabin, nonstop preferred
+
+```bash
+python3 /home/chad/.openclaw/workspace/skills/flight-pricing/flight_pricing.py \
+  --origin SEA --destination BWI --date 2026-06-09 --return-date 2026-06-14 \
+  --cabin FIRST --non-stop --max-results 5
+```
+
+### Force live refresh instead of cache
+
+```bash
+python3 /home/chad/.openclaw/workspace/skills/flight-pricing/flight_pricing.py \
+  --origin SEA --destination BWI --date 2026-06-09 --return-date 2026-06-14 \
+  --cabin FIRST --non-stop --max-results 5 --force-refresh
+```
+
+### Show cached history
+
+```bash
+python3 /home/chad/.openclaw/workspace/skills/flight-pricing/flight_pricing.py \
+  --origin SEA --destination BWI --date 2026-06-09 --return-date 2026-06-14 \
+  --cabin FIRST --history
+```
+
+## What to summarize for Chad
+
+The script prints JSON. Usually summarize:
+- cheapest total price
+- airline(s)
+- outbound and return times
+- whether it is truly nonstop
+- whether cache or live data was used
+- any notable trend from `--history`
+
+For Chad's preferences, call out:
+- Alaska options first if competitive
+- materially cheaper alternatives if they beat Alaska by enough to matter
+- whether the itinerary matches stated timing preferences, not just raw price
+
+## Important behavior notes
+
+- `--non-stop` means direct flights only.
+- Route matching should be exact. Do not accept off-route offers that land in the wrong airport just because the provider returned them.
+- For ongoing monitoring, collect a fresh live sample periodically with `--force-refresh`, then compare against `--history`.
+- If no price context is available, say that plainly instead of inventing trend confidence.

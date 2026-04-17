@@ -1,0 +1,7 @@
+.env
+!.env.example
+cache.db
+flight_pricing.log
+__pycache__/
+*.pyc
+.pytest_cache/

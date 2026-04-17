@@ -137,6 +137,50 @@ class TestRoundTrip:
         assert r0["return"]["segments"][0]["origin"] == "JFK"
         assert r0["return"]["segments"][0]["destination"] == "LAX"
 
+    @patch("requests.get", return_value=_tp_ok())
+    @patch("requests.post")
+    def test_off_route_offers_are_filtered_out(self, mock_post, mock_get, tmp_path):
+        fix = _fixture("duffel_response.json")
+        for offer in fix["data"]["offers"]:
+            offer["slices"].append({
+                "id": "sli_ret",
+                "duration": "PT5H45M",
+                "segments": [{
+                    "origin": {"iata_code": "JFK"},
+                    "destination": {"iata_code": "LAX"},
+                    "departing_at": "2026-05-20T09:00:00",
+                    "arriving_at": "2026-05-20T12:45:00",
+                    "duration": "PT5H45M",
+                    "marketing_carrier": {"iata_code": "UA", "name": "United Airlines"},
+                    "marketing_carrier_flight_number": "456",
+                    "aircraft": {"name": "Boeing 787-9"},
+                }],
+            })
+
+        bad_offer = json.loads(json.dumps(fix["data"]["offers"][0]))
+        bad_offer["id"] = "off_wrong_airport"
+        bad_offer["slices"][0]["segments"][0]["destination"]["iata_code"] = "EWR"
+        fix["data"]["offers"].insert(0, bad_offer)
+
+        resp = MagicMock()
+        resp.status_code = 200
+        resp.json.return_value = fix
+        resp.raise_for_status.return_value = None
+        resp.headers = {}
+        mock_post.return_value = resp
+
+        code, data = _run(
+            ["--origin", "LAX", "--destination", "JFK",
+             "--date", FUTURE, "--return-date", FUTURE_RET],
+            str(tmp_path / "b2.db"),
+        )
+        assert code == 0
+        assert len(data["results"]) > 0
+        assert all(
+            r["outbound"]["segments"][-1]["destination"] == "JFK"
+            for r in data["results"]
+        )
+
 
 # ── c) Cache hit ─────────────────────────────────────────────────────
 

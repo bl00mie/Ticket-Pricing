@@ -173,6 +173,39 @@ class DuffelProvider(FlightSearchProvider):
             segments=segments,
         )
 
+    def _offer_matches_route(
+        self,
+        offer: dict,
+        origin: str,
+        destination: str,
+        return_date: str | None,
+    ) -> bool:
+        """Return True only if the offer slices match the requested route exactly."""
+        slices = offer.get("slices", [])
+        if not slices:
+            return False
+
+        outbound_segments = slices[0].get("segments", [])
+        if not outbound_segments:
+            return False
+        if outbound_segments[0].get("origin", {}).get("iata_code") != origin:
+            return False
+        if outbound_segments[-1].get("destination", {}).get("iata_code") != destination:
+            return False
+
+        if return_date:
+            if len(slices) < 2:
+                return False
+            return_segments = slices[1].get("segments", [])
+            if not return_segments:
+                return False
+            if return_segments[0].get("origin", {}).get("iata_code") != destination:
+                return False
+            if return_segments[-1].get("destination", {}).get("iata_code") != origin:
+                return False
+
+        return True
+
     def _parse_offer(
         self, offer: dict, passengers: int, cabin_class: str
     ) -> FlightOffer:
@@ -318,7 +351,13 @@ class DuffelProvider(FlightSearchProvider):
                 )
 
                 results: list[FlightOffer] = []
-                for raw in offers[:max_results]:
+                for raw in offers:
+                    if not self._offer_matches_route(raw, origin, destination, return_date):
+                        logger.warning(
+                            "Skipping off-route offer %s for requested %s->%s",
+                            raw.get("id", "?"), origin, destination,
+                        )
+                        continue
                     try:
                         results.append(
                             self._parse_offer(raw, passengers, cabin_class)
@@ -328,6 +367,8 @@ class DuffelProvider(FlightSearchProvider):
                             "Skipping unparseable offer %s: %s",
                             raw.get("id", "?"), exc,
                         )
+                    if len(results) >= max_results:
+                        break
                 return results
 
             except AuthenticationError:
