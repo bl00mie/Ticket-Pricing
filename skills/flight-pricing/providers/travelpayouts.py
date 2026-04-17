@@ -19,11 +19,15 @@ TRAVELPAYOUTS_URL = (
 
 
 class TravelpayoutsProvider(PriceContextProvider):
-    """Travelpayouts implementation — returns aggregate price context.
+    """Travelpayouts / Aviasales Data API — returns aggregate price context.
 
     This provider does NOT return bookable offers. It returns statistical
-    price data derived from historical aggregate search data, useful for
-    answering "is this price typical?"
+    price data derived from historical aggregate search data (cached 2-7 days),
+    useful for answering "is this price typical?"
+
+    Token: sign up at https://app.travelpayouts.com then visit
+    https://app.travelpayouts.com/profile/api-token
+    API docs: https://support.travelpayouts.com/hc/en-us/articles/203956163
     """
 
     def __init__(self) -> None:

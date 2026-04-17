@@ -44,9 +44,12 @@ personal agent use.
 
 ### Travelpayouts (optional)
 
-1. Sign up at <https://www.travelpayouts.com/developers/api>
-2. Copy your API token
-3. Paste into `.env` as `TRAVELPAYOUTS_TOKEN`
+1. Sign up free at <https://app.travelpayouts.com> (it's an affiliate partner account — free, no obligations)
+2. After signup, go to <https://app.travelpayouts.com/profile/api-token>
+3. Copy the token shown in the **API token** section
+4. Paste into `.env` as `TRAVELPAYOUTS_TOKEN`
+
+> **Note:** The old URL `travelpayouts.com/developers/api` returns 404. The token is in your profile, not a separate developer portal.
 
 This adds a `price_context` section to responses showing whether the
 current price is below, at, or above the typical range for that route.
